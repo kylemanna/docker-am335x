@@ -7,11 +7,14 @@ MAINTAINER Kyle Manna <kyle@kylemanna>
 
 RUN apt-get update && \
     apt-get install -y build-essential git-core gcc-arm-none-eabi \
-                       flex bison vim curl libc6-dev-i386 bc && \
+                       flex bison vim curl libc6-dev-i386 bc ccache && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir /build
 WORKDIR /build
+
+ENV USE_CCACHE 1
+ENV CCACHE_DIR /build/.ccache
 
 # Device Tree Build
 RUN git clone -b v1.4.1 https://github.com/RobertCNelson/dtc && \
