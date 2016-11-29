@@ -7,7 +7,8 @@ MAINTAINER Kyle Manna <kyle@kylemanna>
 
 RUN apt-get update && \
     apt-get install -y build-essential git-core gcc-arm-none-eabi \
-                       flex bison vim curl libc6-dev-i386 bc ccache lzop && \
+                       flex bison vim curl libc6-dev-i386 bc ccache lzop \
+                       sudo && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir /build
@@ -42,3 +43,6 @@ RUN curl -LO http://software-dl.ti.com/codegen/esd/cgt_public_sw/PRU/2.1.4/ti_cg
     for i in *; do ln -s $PWD/$i /usr/local/bin/; done && \
     cd - && \
     rm ti_cgt_pru_2.1.4_linux_installer_x86.bin
+
+COPY docker_entrypoint.sh /root/docker_entrypoint.sh
+ENTRYPOINT ["/root/docker_entrypoint.sh"]
