@@ -7,7 +7,7 @@ MAINTAINER Kyle Manna <kyle@kylemanna>
 
 RUN apt-get update && \
     apt-get install -y build-essential git-core gcc-arm-none-eabi \
-                       flex bison vim curl libc6-dev-i386 bc ccache && \
+                       flex bison vim curl libc6-dev-i386 bc ccache lzop && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir /build
