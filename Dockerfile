@@ -17,9 +17,13 @@ WORKDIR /build
 ENV USE_CCACHE 1
 ENV CCACHE_DIR /build/.ccache
 
-# Device Tree Build
-RUN git clone -b v1.4.1 https://github.com/RobertCNelson/dtc && \
+#
+# Device Tree Build, branch stolen from:
+# https://github.com/beagleboard/bb.org-overlays/blob/539a06b5c28d46d41da7cca31fa779a27152aecf/dtc-overlay.sh
+#
+RUN git clone --depth 1 --branch bb.org-4.1-dt-overlays5 --single-branch https://github.com/RobertCNelson/dtc && \
     cd dtc && \
+    git checkout -b tested 1e75ebc95be2eaadf1e959e1956e32203a80432e && \
     make && \
     make check install PREFIX=/usr/local && \
     cd - && \
