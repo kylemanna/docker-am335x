@@ -13,16 +13,21 @@ set -e
 #  docker run -ti -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) imagename bash
 #
 
+dbg_echo() {
+    if [ -n "${DEBUG+x}" ]; then
+        echo $@
+    fi
+}
+
 # Reasonable defaults if no USER_ID/GROUP_ID environment variables are set.
 if [ -z ${USER_ID+x} ]; then USER_ID=1000; fi
 if [ -z ${GROUP_ID+x} ]; then GROUP_ID=1000; fi
-
-msg="docker_entrypoint: Creating user UID/GID [$USER_ID/$GROUP_ID]" && echo $msg
+msg="docker_entrypoint: Creating user UID/GID [$USER_ID/$GROUP_ID]" && dbg_echo $msg
 groupadd -g $GROUP_ID -r build && \
 useradd -u $USER_ID --create-home -r -g build build
-echo "$msg - done"
+dbg_echo "$msg - done"
 
-echo ""
+dbg_echo ""
 
 # Default to 'bash' if no arguments are provided
 args="$@"
