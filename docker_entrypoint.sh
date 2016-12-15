@@ -35,6 +35,12 @@ if [ -z "$args" ]; then
   args="bash"
 fi
 
+# Optimal MAKEFLAGS argument if not already defined
+if [ -z ${MAKEFLAGS+x} ]; then
+    # Add 1 assuming disk IO will block processes from time to time.
+    export MAKEFLAGS=$((1 + $(grep processor /proc/cpuinfo | wc -l)))
+fi
+
 # Execute command as `build` user
 export HOME=/home/build
 exec sudo -E -u build $args
